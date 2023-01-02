@@ -8,10 +8,12 @@ using static UnityEngine.GraphicsBuffer;
 public class Enemy : MonoBehaviour
 {
     // Start is called before the first frame update
-    public int maxhealth;
-    public int curhealth;
-    public Transform target;
+    public int maxhealth;//초대체력
+    public int curhealth;//현제체력
+    public Transform target;//따라갈 목표
+    public BoxCollider melarea;//공격범위
     public bool ischase;
+    public bool isattack;
 
     bool attackmel;
 
@@ -40,9 +42,10 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (ischase)
+        if (nav.enabled)
         {
             nav.SetDestination(target.position);
+            nav.isStopped = !ischase;
         }
     }
     void freezevel()
@@ -54,8 +57,39 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    void targeting()
+    {
+        float targetRad = 0.5f;
+        float targetRange = 0.05f;
+
+        RaycastHit[] rayhit = Physics.SphereCastAll(transform.position, targetRad, transform.forward, targetRange, LayerMask.GetMask("player"));
+        if (rayhit.Length > 0 && !isattack)
+        {
+            StartCoroutine((attack()));
+        }
+    }
+
+    IEnumerator attack()
+    {
+        ischase = false;
+        isattack = true;
+        anim.SetBool("isAttack", true);
+
+        yield return new WaitForSeconds(0.2f);
+        melarea.enabled = true;
+
+        yield return new WaitForSeconds(1f);
+        melarea.enabled = false;
+
+        yield return new WaitForSeconds(1f);
+        ischase = true;
+        isattack = false;
+        anim.SetBool("isAttack", false);
+    }
+
     void FixedUpdate()
     {
+        targeting();
         freezevel();
     }
     void OnTriggerEnter(Collider other)

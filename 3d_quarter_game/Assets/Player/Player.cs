@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
 
@@ -43,6 +45,8 @@ public class Player : MonoBehaviour
     bool isreload;//재장전
     bool reloadely;//재장전쿨타임
 
+    bool isdamge;//피해애니메이션
+
     bool isborder;
 
     bool fdown;//공격
@@ -60,12 +64,13 @@ public class Player : MonoBehaviour
 
     GameObject nearob;//무변 아이템
     Weapon nowweapon;//지금무기
-
+    MeshRenderer[] meshs;
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
+        meshs = GetComponentsInChildren<MeshRenderer>();
     }
 
     void Update()
@@ -369,6 +374,30 @@ public class Player : MonoBehaviour
             }
             Destroy(other.gameObject);
         }
+        else if(other.tag == "enemybullet")
+        {
+            if (!isdamge)
+            {
+                Bullet enemybullet = other.GetComponent<Bullet>();
+                health -= enemybullet.damage;
+                StartCoroutine(ondamage());
+            }
+        }
+    }
+
+    IEnumerator ondamage()
+    {
+        isdamge = true;
+        foreach(MeshRenderer mesh in meshs)
+        {
+            mesh.material.color = Color.yellow;
+        }
+        yield return new WaitForSeconds(1f);
+        isdamge = false;
+        foreach(MeshRenderer mesh in meshs)
+        {
+            mesh.material.color = Color.white;
+        }
     }
 
     //별뚫 방지
@@ -382,8 +411,6 @@ public class Player : MonoBehaviour
     {
         Stoptowall();
     }
-
-    
 
     //주면에 무기가 있을떄
     void OnTriggerStay(Collider other)
