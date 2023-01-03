@@ -59,6 +59,7 @@
     <Compile Include="Assets\Player\Bullet.cs" />
     <Compile Include="Assets\Player\Enemy.cs" />
     <Compile Include="Assets\Player\follow_ca.cs" />
+    <Compile Include="Assets\Player\Missile.cs" />
     <Compile Include="Assets\Player\Orbit.cs" />
     <Compile Include="Assets\Player\Player.cs" />
     <Compile Include="Assets\Player\Item.cs" />

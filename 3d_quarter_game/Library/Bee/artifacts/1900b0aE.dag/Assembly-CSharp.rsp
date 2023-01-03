@@ -361,6 +361,7 @@
 "Assets/Player/follow_ca.cs"
 "Assets/Player/Grenade.cs"
 "Assets/Player/Item.cs"
+"Assets/Player/Missile.cs"
 "Assets/Player/Orbit.cs"
 "Assets/Player/Player.cs"
 "Assets/Player/Weapon.cs"

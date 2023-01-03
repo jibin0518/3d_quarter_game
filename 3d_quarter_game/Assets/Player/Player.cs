@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
     int equipweapon = -2;//무기를 교체하기 위한 변수
 
     float fdel;//공격딜레이
+    public float runspd;//걷기 달리기 구분
 
     Vector3 movevec;//이동방향
     Vector3 dgvec;//피하기방향
@@ -107,6 +108,7 @@ public class Player : MonoBehaviour
     //이동
     void move()
     {
+        spd = 5;
         movevec = new Vector3(haxis, 0, vaxis).normalized;
 
         if (isdg)
@@ -114,16 +116,13 @@ public class Player : MonoBehaviour
             movevec = dgvec;
         }
 
-        if (isreload || isswap || fdown)
-        {
-            movevec = Vector3.zero;
-        }
+        spd = (isreload || isswap || fdown) ? 2f : 5f;
+        runspd = (rundown || space) ? 1f : 0.3f;
 
+        //달리기
         if (!isborder){
-            transform.position += movevec * spd * (rundown ? 1f : 0.3f) * Time.deltaTime;
+            transform.position += movevec * spd * runspd * Time.deltaTime;
         }
-        
-        
 
         anim.SetBool("isWolk", movevec != Vector3.zero);
         anim.SetBool("isRun", rundown);
@@ -161,6 +160,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //수류탄
     void grenade()
     {
         if(hasgre == 0)
@@ -380,6 +380,10 @@ public class Player : MonoBehaviour
             {
                 Bullet enemybullet = other.GetComponent<Bullet>();
                 health -= enemybullet.damage;
+                if(other.GetComponent<Rigidbody>() != null)
+                {
+                    Destroy(other.gameObject);
+                }
                 StartCoroutine(ondamage());
             }
         }
@@ -403,13 +407,17 @@ public class Player : MonoBehaviour
     //별뚫 방지
     void Stoptowall()
     {
-        Debug.DrawRay(transform.position, transform.forward * 0.5f, Color.red);
+        Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
         isborder = Physics.Raycast(transform.position, transform.forward , 0.5f, LayerMask.GetMask("wall"));
     }
 
     void FixedUpdate()
     {
         Stoptowall();
+        if (isborder)
+        {
+            Debug.Log("!!!");
+        }
     }
 
     //주면에 무기가 있을떄

@@ -7,11 +7,15 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public enum Type {A,B,C };
+    public Type enemytype;
     public int maxhealth;//초대체력
     public int curhealth;//현제체력
+
     public Transform target;//따라갈 목표
     public BoxCollider melarea;//공격범위
+    public GameObject bullet;
+
     public bool ischase;
     public bool isattack;
 
@@ -59,8 +63,24 @@ public class Enemy : MonoBehaviour
 
     void targeting()
     {
-        float targetRad = 0.5f;
-        float targetRange = 0.05f;
+        float targetRad = 0;
+        float targetRange = 0;
+
+        switch (enemytype)
+        {
+            case Type.A:
+                targetRad = 0.5f;
+                targetRange = 0.05f;
+                break;
+            case Type.B:
+                targetRad = 0.5f;
+                targetRange = 1.5f;
+                break;
+            case Type.C:
+                targetRad = 0.5f;
+                targetRange = 2f;
+                break;
+        }
 
         RaycastHit[] rayhit = Physics.SphereCastAll(transform.position, targetRad, transform.forward, targetRange, LayerMask.GetMask("player"));
         if (rayhit.Length > 0 && !isattack)
@@ -75,13 +95,38 @@ public class Enemy : MonoBehaviour
         isattack = true;
         anim.SetBool("isAttack", true);
 
-        yield return new WaitForSeconds(0.2f);
-        melarea.enabled = true;
+        switch (enemytype)
+        {
+            case Type.A:
+                yield return new WaitForSeconds(0.1f);
+                melarea.enabled = true;
 
-        yield return new WaitForSeconds(1f);
-        melarea.enabled = false;
+                yield return new WaitForSeconds(1f);
+                melarea.enabled = false;
 
-        yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1f);
+                break;
+            case Type.B:
+                yield return new WaitForSeconds(0.2f);
+                rigid.AddForce(transform.forward * 6, ForceMode.Impulse);
+                melarea.enabled = true;
+
+                yield return new WaitForSeconds(0.5f);
+                rigid.velocity = Vector3.zero;
+                melarea.enabled = false;
+
+                yield return new WaitForSeconds(2f);
+                break;
+            case Type.C:
+                yield return new WaitForSeconds(0.5f);
+                GameObject instantbullet = Instantiate(bullet, transform.position, transform.rotation);
+                Rigidbody rigidbullet = instantbullet.GetComponent<Rigidbody>();
+                rigidbullet.velocity = transform.forward * 6;
+
+                yield return new WaitForSeconds(2f);
+                break;
+        }
+
         ischase = true;
         isattack = false;
         anim.SetBool("isAttack", false);
