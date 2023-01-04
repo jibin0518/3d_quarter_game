@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     public bool[] hasweapon;//가지고 있는 무기.배열
     public GameObject[] grendes;//가지고있는 수류탄
     public Camera followca;// 마우스 따라감
-    public GameObject GreObj;
+    public GameObject GreObj;//수류탄 객체
 
     public int ammo;//총알
     public int coin;//돈
@@ -414,10 +414,13 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         Stoptowall();
+        //벽에 닿았는지 신호
+        /*
         if (isborder)
         {
             Debug.Log("!!!");
         }
+        */
     }
 
     //주면에 무기가 있을떄
