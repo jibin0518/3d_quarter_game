@@ -8,13 +8,12 @@ public class Grenade : MonoBehaviour
     public GameObject meshObj;
     public GameObject effectObj;
     public Rigidbody rigid;
-    // Start is called before the first frame update
+
     void Start()
     {
         StartCoroutine(explore());
     }
 
-    // Update is called once per frame
     IEnumerator explore()
     {
         yield return new WaitForSeconds(3);

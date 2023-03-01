@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
 
@@ -11,7 +13,7 @@ public class Player : MonoBehaviour
     public bool[] hasweapon;//가지고 있는 무기.배열
     public GameObject[] grendes;//가지고있는 수류탄
     public Camera followca;// 마우스 따라감
-    public GameObject GreObj;
+    public GameObject GreObj;//수류탄 객체
 
     public int ammo;//총알
     public int coin;//돈
@@ -43,6 +45,8 @@ public class Player : MonoBehaviour
     bool isreload;//재장전
     bool reloadely;//재장전쿨타임
 
+    bool isdamge;//피해애니메이션
+
     bool isborder;
 
     bool fdown;//공격
@@ -51,6 +55,7 @@ public class Player : MonoBehaviour
     int equipweapon = -2;//무기를 교체하기 위한 변수
 
     float fdel;//공격딜레이
+    public float runspd;//걷기 달리기 구분
 
     Vector3 movevec;//이동방향
     Vector3 dgvec;//피하기방향
@@ -60,12 +65,13 @@ public class Player : MonoBehaviour
 
     GameObject nearob;//무변 아이템
     Weapon nowweapon;//지금무기
-
+    MeshRenderer[] meshs;
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
+        meshs = GetComponentsInChildren<MeshRenderer>();
     }
 
     void Update()
@@ -102,6 +108,7 @@ public class Player : MonoBehaviour
     //이동
     void move()
     {
+        spd = 5;
         movevec = new Vector3(haxis, 0, vaxis).normalized;
 
         if (isdg)
@@ -109,16 +116,13 @@ public class Player : MonoBehaviour
             movevec = dgvec;
         }
 
-        if (isreload || isswap || fdown)
-        {
-            movevec = Vector3.zero;
-        }
+        spd = (isreload || isswap || fdown) ? 2f : 5f;
+        runspd = (rundown || space) ? 1f : 0.3f;
 
+        //달리기
         if (!isborder){
-            transform.position += movevec * spd * (rundown ? 1f : 0.3f) * Time.deltaTime;
+            transform.position += movevec * spd * runspd * Time.deltaTime;
         }
-        
-        
 
         anim.SetBool("isWolk", movevec != Vector3.zero);
         anim.SetBool("isRun", rundown);
@@ -156,6 +160,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //수류탄
     void grenade()
     {
         if(hasgre == 0)
@@ -369,21 +374,54 @@ public class Player : MonoBehaviour
             }
             Destroy(other.gameObject);
         }
+        else if(other.tag == "enemybullet")
+        {
+            if (!isdamge)
+            {
+                Bullet enemybullet = other.GetComponent<Bullet>();
+                health -= enemybullet.damage;
+                if(other.GetComponent<Rigidbody>() != null)
+                {
+                    Destroy(other.gameObject);
+                }
+                StartCoroutine(ondamage());
+            }
+        }
+    }
+
+    IEnumerator ondamage()
+    {
+        isdamge = true;
+        foreach(MeshRenderer mesh in meshs)
+        {
+            mesh.material.color = Color.yellow;
+        }
+        yield return new WaitForSeconds(1f);
+        isdamge = false;
+        foreach(MeshRenderer mesh in meshs)
+        {
+            mesh.material.color = Color.white;
+        }
     }
 
     //별뚫 방지
     void Stoptowall()
     {
-        Debug.DrawRay(transform.position, transform.forward * 0.5f, Color.red);
+        Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
         isborder = Physics.Raycast(transform.position, transform.forward , 0.5f, LayerMask.GetMask("wall"));
     }
 
     void FixedUpdate()
     {
         Stoptowall();
+        //벽에 닿았는지 신호
+        /*
+        if (isborder)
+        {
+            Debug.Log("!!!");
+        }
+        */
     }
-
-    
 
     //주면에 무기가 있을떄
     void OnTriggerStay(Collider other)
