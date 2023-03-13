@@ -17,5 +17,6 @@ public class BossMissile : Bullet
     void Update()
     {
         nav.SetDestination(target.position);
+        Destroy(gameObject, 5);
     }
 }

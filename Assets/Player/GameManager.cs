@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour
     public int enemycntC;
     public int enemycntD;
 
+    public GameObject noticeshop;
+
     public Transform[] enemyZones;
     public GameObject[] enemies;
     public List<int> enemylist;
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour
     public GameObject startzone;
     public GameObject menupanel;
     public GameObject gamepanel;
+    public GameObject overpanel;
     public Text maxscoreTxT;
     public Text scoreTxT;
     public Text stageTxT;
@@ -43,11 +47,19 @@ public class GameManager : MonoBehaviour
     public Text enemyCTxt;
     public RectTransform bossHealthGr;
     public RectTransform bossHealthBar;
+    public Text curscoreText;
+    public Text bestText;
+    public GameObject armnoticeTxt;
 
     void Awake()
     {
         enemylist = new List<int>();
         maxscoreTxT.text = string.Format("{0:n0}", PlayerPrefs.GetInt("MaxScore"));
+
+        if (PlayerPrefs.HasKey("MaxScore"))
+        {
+            PlayerPrefs.SetInt("MaxScore", 0);
+        }
     }
     public void GameStart()
     {
@@ -60,6 +72,33 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
     }
 
+    public void noticearm()
+    {
+        armnoticeTxt.SetActive(true);
+    }
+    public void noticebarover() {
+        armnoticeTxt.SetActive(false);
+    }
+
+    public void GameOver()
+    {
+        gamepanel.SetActive(false);
+        overpanel.SetActive(true);
+        curscoreText.text = scoreTxT.text;
+
+        int maxscore = PlayerPrefs.GetInt("MAXscore");
+        if(player.score > maxscore)
+        {
+            bestText.gameObject.SetActive(true);
+            PlayerPrefs.SetInt("MAXscore" , player.score);
+        }
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void StageStart()
     {
         startzone.SetActive(false);
@@ -69,6 +108,7 @@ public class GameManager : MonoBehaviour
         }
         isbattle = true;
         StartCoroutine(inbattle());
+        
     }
 
     void StageEnd()
@@ -80,12 +120,14 @@ public class GameManager : MonoBehaviour
         {
             zone.gameObject.SetActive(false);
         }
+        noticeshop.SetActive(true);
         isbattle = false;
         stage++;
     }
 
     IEnumerator inbattle()
     {
+        noticeshop.SetActive(false);
         if (stage % 5 == 0)
         {
             enemycntD++;
@@ -180,7 +222,7 @@ public class GameManager : MonoBehaviour
         enemyBTxt.text = enemycntB.ToString();
         enemyCTxt.text = enemycntC.ToString();
 
-        if (boss != null && boss.curhealth !< 0)
+        if (boss != null)
         {
             bossHealthGr.anchoredPosition = Vector3.down * 30;
             bossHealthBar.localScale = new Vector3((float)boss.curhealth / boss.maxhealth, 1, 1);

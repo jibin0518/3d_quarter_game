@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Unity.VisualScripting;
+using Unity.VisualScripting.ReorderableList;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
@@ -14,6 +16,10 @@ public class Player : MonoBehaviour
     public GameObject[] grendes;//가지고있는 수류탄
     public Camera followca;// 마우스 따라감
     public GameObject GreObj;//수류탄 객체
+    public GameManager manger;
+
+    public GameObject Itemshop;
+    public GameObject Weaponshop;
 
     public int ammo;//총알
     public int coin;//돈
@@ -49,6 +55,7 @@ public class Player : MonoBehaviour
     bool isdamge;//피해애니메이션
 
     bool isborder;
+    bool isdead;
 
     bool fdown;//공격
     bool isfry=true;//공격준비
@@ -111,7 +118,6 @@ public class Player : MonoBehaviour
         fdown = Input.GetButton("Fire1");
         rdown = Input.GetButtonDown("Reload");
         gdown = Input.GetButtonDown("Fire2");
-
     }
 
     //이동
@@ -119,7 +125,7 @@ public class Player : MonoBehaviour
     {
         movevec = new Vector3(haxis, 0, vaxis).normalized;
 
-        if (isdg)
+        if (isdg || isdead)
         {
             movevec = dgvec;
         }
@@ -128,7 +134,7 @@ public class Player : MonoBehaviour
         runspd = (rundown || space) ? 1f : 0.3f;
 
         //달리기
-        if (!isborder){
+        if (!isborder && !isdead){
             transform.position += movevec * spd * runspd * slide * Time.deltaTime;
         }
 
@@ -143,7 +149,7 @@ public class Player : MonoBehaviour
     {
         transform.LookAt(transform.position + movevec);
 
-        if (fdown)
+        if (fdown && !isdead)
         {
             Ray ray = followca.ScreenPointToRay(Input.mousePosition);
             RaycastHit rayhit;
@@ -159,7 +165,7 @@ public class Player : MonoBehaviour
     //점프(작동중지)
     void jump()
     {
-        if (space && !isjp && movevec == Vector3.zero)
+        if (space && !isjp && movevec == Vector3.zero && !isdead)
         {
             rigid.AddForce(Vector3.up * 3.5f, ForceMode.Impulse);
             anim.SetBool("isJump", true);
@@ -175,7 +181,7 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        if(gdown && !isreload && !isswap)
+        if(gdown && !isreload && !isswap && !isdead)
         {
             Ray ray = followca.ScreenPointToRay(Input.mousePosition);
             RaycastHit rayhit;
@@ -198,7 +204,7 @@ public class Player : MonoBehaviour
     //슬라이드
     void dodge()
     {
-        if (space && movevec != Vector3.zero && !isjp && !isdg && !isswap/*&& !cooltm*/)
+        if (space && movevec != Vector3.zero && !isjp && !isdg && !isswap && !isdead /*&& !cooltm*/)
         {
             dgvec = movevec;
             slide = 2;
@@ -264,7 +270,7 @@ public class Player : MonoBehaviour
     //아이템 먹기
     void inter()
     {
-        if (idown && nearob != null && !isdg)
+        if (idown && nearob != null && !isdg && !isdead)
         {
             if (nearob.tag == "weapon")
             {
@@ -287,19 +293,23 @@ public class Player : MonoBehaviour
         fdel += Time.deltaTime;
         isfry = nowweapon.rate < fdel;
 
-        if(fdown && isfry && !isdg && !isswap && !reloadely)
+        if(fdown && isfry && !isdg && !isswap && !reloadely && !isdead)
         {
             nowweapon.use();
             anim.SetTrigger(nowweapon.type == Weapon.Type.mel ? "doswing" : "doshot");
             fdel = 0;
             isfry = false;
         }
+        if (nowweapon.curammo == 0 && nowweapon.type!=Weapon.Type.mel)
+        {
+            manger.noticearm();
+        }
     }
 
     //장전입력 
     void reload()
     {
-        if(nowweapon!=null && nowweapon.type == Weapon.Type.ran && ammo>0 && !isdg && rdown && !isswap && isfry && nowweapon.curammo != nowweapon.maxammo && !reloadely)
+        if(nowweapon != null && nowweapon.type == Weapon.Type.ran && ammo > 0 && !isdg && rdown && !isswap && isfry && nowweapon.curammo != nowweapon.maxammo && !reloadely && !isdead)
         {
             if (isreload == false)
             {
@@ -316,6 +326,7 @@ public class Player : MonoBehaviour
     //장전
     void reloadout()
     {
+        manger.noticebarover();
         int reammo = nowweapon.maxammo - nowweapon.curammo;
         if (ammo > nowweapon.maxammo || nowweapon.maxammo < nowweapon.curammo + ammo)
         {
@@ -412,6 +423,11 @@ public class Player : MonoBehaviour
             rigid.AddForce(transform.forward * -3.5f, ForceMode.Impulse);
         }
 
+        if (health <= 0 && !isdead)
+        {
+            ondie();
+        }
+
         yield return new WaitForSeconds(1f);
 
         isdamge = false;
@@ -425,13 +441,19 @@ public class Player : MonoBehaviour
         }
     }
 
+    void ondie()
+    {
+        anim.SetTrigger("doDie");
+        isdead = true;
+        manger.GameOver();
+    }
+
     //별뚫 방지
     void Stoptowall()
     {
         Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
         isborder = Physics.Raycast(transform.position, transform.forward , 0.5f, LayerMask.GetMask("wall"));
     }
-
     void FixedUpdate()
     {
         Stoptowall();

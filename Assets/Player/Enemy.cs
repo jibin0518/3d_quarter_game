@@ -180,11 +180,14 @@ public class Enemy : MonoBehaviour
 
     IEnumerator OnDamage(Vector3 reactvect, bool isGre)
     {
-        foreach (MeshRenderer mesh in meshs)
+        if (!isdead)
         {
-            mesh.material.color = Color.red;
+            foreach (MeshRenderer mesh in meshs)
+            {
+                mesh.material.color = Color.red;
+            }
+            yield return new WaitForSeconds(0.1f);
         }
-        yield return new WaitForSeconds(0.1f);
 
         if (curhealth > 0)
         {
@@ -193,7 +196,7 @@ public class Enemy : MonoBehaviour
                 mesh.material.color = Color.white;
             }
         }
-        else
+        else if(!isdead)
         {
             foreach (MeshRenderer mesh in meshs)
             {
@@ -209,22 +212,21 @@ public class Enemy : MonoBehaviour
             int rancoin = Random.Range(0, 3);
             Instantiate(coins[rancoin], transform.position, Quaternion.identity);
 
-            switch (enemytype)
-            {
-                case Type.A:
-                    manager.enemycntA--;
-                    break;
-                case Type.B:
-                    manager.enemycntB--;
-                    break;
-                case Type.C:
-                    manager.enemycntC--;
-                    break;
-                case Type.D:
-                    manager.enemycntD--;
-                    break;
-
-            }
+                switch (enemytype)
+                {
+                  case Type.A:
+                        manager.enemycntA--;
+                        break;
+                    case Type.B:
+                        manager.enemycntB--;
+                        break;
+                    case Type.C:
+                        manager.enemycntC--;
+                        break;
+                    case Type.D:
+                        manager.enemycntD--;
+                        break;
+                }
             if (isGre)
             {
                 reactvect = reactvect.normalized;
