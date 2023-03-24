@@ -7,6 +7,7 @@ using Unity.VisualScripting.ReorderableList;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -31,6 +32,9 @@ public class Player : MonoBehaviour
     public int maxcoin;//최대돈
     public int maxhealth;//최대체력
     public int maxhasgre;//최대수류탄
+
+    public string[] text;
+    public Text noticetext;
 
     float haxis;//좌우
     float vaxis;//상하
@@ -302,8 +306,15 @@ public class Player : MonoBehaviour
         }
         if (nowweapon.curammo == 0 && nowweapon.type!=Weapon.Type.mel)
         {
-            manger.noticearm();
+            StartCoroutine(noticearm());
         }
+    }
+
+    IEnumerator noticearm()
+    {
+        noticetext.text = text[1];
+        yield return new WaitForSeconds(2f);
+        noticetext.text = text[0];
     }
 
     //장전입력 
@@ -326,7 +337,6 @@ public class Player : MonoBehaviour
     //장전
     void reloadout()
     {
-        manger.noticebarover();
         int reammo = nowweapon.maxammo - nowweapon.curammo;
         if (ammo > nowweapon.maxammo || nowweapon.maxammo < nowweapon.curammo + ammo)
         {

@@ -50,7 +50,6 @@ public class GameManager : MonoBehaviour
     public RectTransform bossHealthBar;
     public Text curscoreText;
     public Text bestText;
-    public GameObject armnoticeTxt;
     public Text plusText;
     public string[] cointext;
 
@@ -73,14 +72,6 @@ public class GameManager : MonoBehaviour
         gamepanel.SetActive(true);
 
         player.gameObject.SetActive(true);
-    }
-
-    public void noticearm()
-    {
-        armnoticeTxt.SetActive(true);
-    }
-    public void noticebarover() {
-        armnoticeTxt.SetActive(false);
     }
 
     public void GameOver()
@@ -124,7 +115,7 @@ public class GameManager : MonoBehaviour
             zone.gameObject.SetActive(false);
         }
         player.coin += 150;
-        //notice();
+        StartCoroutine(notice());
         noticeshop.SetActive(true);
         isbattle = false;
         stage++;
@@ -193,12 +184,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /*IEnumerator notice()
+    IEnumerator notice()
     {
         plusText.text = cointext[0];
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2.5f);
         plusText.text = cointext[1];
-    }*/
+    }
 
     void LateUpdate()
     {

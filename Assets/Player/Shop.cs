@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,18 +36,25 @@ public class Shop : MonoBehaviour
     {
             if (itemshop)
             {
-                Debug.Log("111");
+                //Debug.Log("111");
                 Itemshop.SetActive(true);
                 Weaponshop.SetActive(false);
                 itemshop = true;
             }
             if (weaponshop)
             {
-                Debug.Log("222");
+                //Debug.Log("222");
                 Weaponshop.SetActive(true);
                 Itemshop.SetActive(false);
                 weaponshop = true;
             }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Weaponshop.SetActive(false);
+                weaponshop = false;
+                Itemshop.SetActive(false);
+                itemshop = false;
+        }
     }
 
     public void weaponExit()

@@ -12,23 +12,47 @@ public class Weapon_Shop_Buy : MonoBehaviour
     public Text talktext;
     public int[] weaponprice;
     public string[] talkdata;
+    bool weaponpay=false;
 
     public void Buy(int index)
     {
         int price = weaponprice[index];
+        if (index > 0) {
+            StartCoroutine(readyitem());
+        }
+        if (weaponpay == true && index!>0)
+        {
+            StartCoroutine(buyinfo());
+        }
         if (price > player.coin)
         {
             StopCoroutine(talk());
             StartCoroutine(talk());
             return;
         }
-        player.coin -= price;
-        player.hasweapon[index+1] = true;
+        else if (!weaponpay && index == 0)
+        {
+            player.coin -= price;
+            player.hasweapon[index + 1] = true;
+            weaponpay = true;
+        }
     }
 
     IEnumerator talk()
     {
         talktext.text = talkdata[0];
+        yield return new WaitForSeconds(2f);
+        talktext.text = talkdata[1];
+    }
+    IEnumerator buyinfo()
+    {
+        talktext.text = talkdata[2];
+        yield return new WaitForSeconds(2f);
+        talktext.text = talkdata[1];
+    }
+    IEnumerator readyitem()
+    {
+        talktext.text = talkdata[3];
         yield return new WaitForSeconds(2f);
         talktext.text = talkdata[1];
     }
