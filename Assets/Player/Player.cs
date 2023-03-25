@@ -249,6 +249,10 @@ public class Player : MonoBehaviour
             {
                 nowweapon.gameObject.SetActive(false);
             }
+            if (hasweapon[weaponidex] == false)
+            {
+                nowweapon = null;
+            }
             if (hasweapon[weaponidex] == true)
             {
                 nowweapon = weapons[weaponidex].GetComponent<Weapon>();
@@ -262,6 +266,7 @@ public class Player : MonoBehaviour
                 isswap = true;
                 Invoke("swapout", 0.4f);
             }
+            
         }
     }
 

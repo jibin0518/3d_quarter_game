@@ -301,9 +301,9 @@ MonoBehaviour:
   melarea: {fileID: 6061780544088353552}
   bullet: {fileID: 0}
   coins:
-  - {fileID: 291639310709516166, guid: 00c7c7f2d8b6ed24f92aba89c24ca392, type: 3}
-  - {fileID: 6035386003625778112, guid: 7977ec4724d91f94ba2a06c4d5539f15, type: 3}
-  - {fileID: 6627079904633413422, guid: b841b9a8491eed34297ad09d2ccf0f18, type: 3}
+  - {fileID: 1193534365263240607, guid: 00c7c7f2d8b6ed24f92aba89c24ca392, type: 3}
+  - {fileID: 1404491026221764045, guid: b841b9a8491eed34297ad09d2ccf0f18, type: 3}
+  - {fileID: 5765354612886526941, guid: 7977ec4724d91f94ba2a06c4d5539f15, type: 3}
   ischase: 0
   isattack: 0
   isdead: 0

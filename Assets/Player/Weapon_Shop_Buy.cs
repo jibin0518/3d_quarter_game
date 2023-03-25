@@ -33,7 +33,7 @@ public class Weapon_Shop_Buy : MonoBehaviour
         else if (!weaponpay && index == 0)
         {
             player.coin -= price;
-            player.hasweapon[index + 1] = true;
+            player.hasweapon[index + 2] = true;
             weaponpay = true;
         }
     }

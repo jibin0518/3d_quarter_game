@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public int enemycntC;
     public int enemycntD;
 
+    public bool gamesta;
+
     public GameObject noticeshop;
 
     public Transform[] enemyZones;
@@ -95,6 +97,7 @@ public class GameManager : MonoBehaviour
 
     public void StageStart()
     {
+        gamesta = true;
         startzone.SetActive(false);
         foreach (Transform zone in enemyZones)
         {
@@ -107,6 +110,7 @@ public class GameManager : MonoBehaviour
 
     void StageEnd()
     {
+        gamesta = false;
         player.transform.position = Vector3.up * 0.2f;
 
         startzone.SetActive(true);

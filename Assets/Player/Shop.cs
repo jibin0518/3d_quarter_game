@@ -12,18 +12,13 @@ public class Shop : MonoBehaviour
     bool weaponshop;
     public GameObject Itemshop;
     public GameObject Weaponshop;
-    public Player player;
-
-    //public Text talktext;
-    //public int[] itemprice;
-    //public int[] weaponprice;
-    //public string[] talkdata;
+    public GameManager manger;
 
 
     void Update()
     {
         key();
-        shop();
+        shopokey();
     }
 
     void key()
@@ -32,9 +27,9 @@ public class Shop : MonoBehaviour
         weaponshop = Input.GetButtonDown("WeaponShop");
     }
 
-    void shop()
+    void shopokey()
     {
-            if (itemshop)
+            if (itemshop && manger.gamesta!=true)
             {
                 //Debug.Log("111");
                 Itemshop.SetActive(true);
@@ -54,6 +49,35 @@ public class Shop : MonoBehaviour
                 weaponshop = false;
                 Itemshop.SetActive(false);
                 itemshop = false;
+            }
+    }
+    public void Itemshopopen()
+    {
+        Itemshop.SetActive(true);
+        Weaponshop.SetActive(false);
+        itemshop = true;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Weaponshop.SetActive(false);
+            weaponshop = false;
+            Itemshop.SetActive(false);
+            itemshop = false;
+        }
+    }
+
+    public void Weaponshopopen()
+    {
+        Weaponshop.SetActive(true);
+        Itemshop.SetActive(false);
+        weaponshop = true;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Weaponshop.SetActive(false);
+            weaponshop = false;
+            Itemshop.SetActive(false);
+            itemshop = false;
         }
     }
 
