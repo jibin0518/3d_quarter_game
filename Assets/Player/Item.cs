@@ -7,13 +7,18 @@ using static UnityEngine.GraphicsBuffer;
 public class Item : MonoBehaviour
 {
     public enum Type {am,co,gre, hea,wea };
-    public Transform target;
+    public GameObject player;
     public Type type;
     public int val;
 
     Rigidbody rigid;
     SphereCollider sphereCollider;
     NavMeshAgent nav;
+
+    void Start()
+    {
+        player = GameObject.Find("Player");
+    }
 
     private void Awake()
     {
@@ -24,9 +29,8 @@ public class Item : MonoBehaviour
     void Update()
     {
         transform.Rotate(Vector3.up * 50 * Time.deltaTime);
-        if(type == Type.co && nav.enabled)
+        if(type == Type.co)
         {
-            Player player = target.GetComponent<Player>();
             targeting();
         }
     }
@@ -42,6 +46,6 @@ public class Item : MonoBehaviour
     void targeting()
     {
         
-        nav.SetDestination(target.position);
+        nav.SetDestination(player.transform.position);
     }
 }

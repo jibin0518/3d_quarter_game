@@ -36,7 +36,7 @@ public class Shop : MonoBehaviour
                 Weaponshop.SetActive(false);
                 itemshop = true;
             }
-            if (weaponshop)
+            if (weaponshop && manger.gamesta != true)
             {
                 //Debug.Log("222");
                 Weaponshop.SetActive(true);
