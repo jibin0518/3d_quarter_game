@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,11 +30,13 @@ public class GameManager : MonoBehaviour
     public Transform[] enemyZones;
     public GameObject[] enemies;
     public List<int> enemylist;
+    public Shop shopmanger;
 
     public GameObject startzone;
     public GameObject menupanel;
     public GameObject gamepanel;
     public GameObject overpanel;
+    public GameObject escpanel;
     public Text maxscoreTxT;
     public Text scoreTxT;
     public Text stageTxT;
@@ -105,7 +108,6 @@ public class GameManager : MonoBehaviour
         }
         isbattle = true;
         StartCoroutine(inbattle());
-        
     }
 
     void StageEnd()
@@ -182,10 +184,18 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (isbattle)
+        if (isbattle) playTime += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Escape)) Exit();
+    }
+
+    void Exit()
+    {
+        if (shopmanger.Itemshop == true || shopmanger.Weaponshop == true)
         {
-            playTime += Time.deltaTime;
+            shopmanger.itemExit();
+            shopmanger.weaponExit();
         }
+        if(shopmanger.Itemshop==false && shopmanger.Weaponshop==false) escpanel.SetActive(true);
     }
 
     IEnumerator notice()

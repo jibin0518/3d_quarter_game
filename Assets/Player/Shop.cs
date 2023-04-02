@@ -8,12 +8,11 @@ using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
-    bool itemshop;
-    bool weaponshop;
+    bool itemshop=false;
+    bool weaponshop=false;
     public GameObject Itemshop;
     public GameObject Weaponshop;
     public GameManager manger;
-
 
     void Update()
     {
@@ -56,14 +55,6 @@ public class Shop : MonoBehaviour
         Itemshop.SetActive(true);
         Weaponshop.SetActive(false);
         itemshop = true;
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Weaponshop.SetActive(false);
-            weaponshop = false;
-            Itemshop.SetActive(false);
-            itemshop = false;
-        }
     }
 
     public void Weaponshopopen()
@@ -71,27 +62,18 @@ public class Shop : MonoBehaviour
         Weaponshop.SetActive(true);
         Itemshop.SetActive(false);
         weaponshop = true;
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Weaponshop.SetActive(false);
-            weaponshop = false;
-            Itemshop.SetActive(false);
-            itemshop = false;
-        }
     }
 
     public void weaponExit()
     {
         Weaponshop.SetActive(false);
         weaponshop = false;
-        //Debug.Log("1!1");
+        Debug.Log(weaponshop);
     }
 
     public void itemExit()
     {
         Itemshop.SetActive(false);
         itemshop = false;
-        //Debug.Log("2!2");
     }
 }

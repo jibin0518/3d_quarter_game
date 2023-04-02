@@ -460,7 +460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -49158,7 +49158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -55847,10 +55847,12 @@ MonoBehaviour:
   - {fileID: 8072884169193317215, guid: 70428787542a5724a8d8059606e982d2, type: 3}
   - {fileID: 3335144882627429272, guid: 44b6a988221d2424cbda588ce07e4d89, type: 3}
   enemylist: 
+  shopmanger: {fileID: 691012039}
   startzone: {fileID: 355278540}
   menupanel: {fileID: 2061569362}
   gamepanel: {fileID: 1751489129}
   overpanel: {fileID: 349371495}
+  escpanel: {fileID: 1315881735}
   maxscoreTxT: {fileID: 1440216651}
   scoreTxT: {fileID: 1277863315}
   stageTxT: {fileID: 1642313291}
