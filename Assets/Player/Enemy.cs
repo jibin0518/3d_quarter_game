@@ -155,11 +155,6 @@ public class Enemy : MonoBehaviour
             curhealth -= weapon.damage;
             Vector3 reactvect = transform.position - other.transform.position;
             StartCoroutine(OnDamage(reactvect,false));
-            //---------------------------------------------
-            reactvect = reactvect.normalized;
-            reactvect += Vector3.up;
-
-            rigid.AddForce(reactvect * 1.3f, ForceMode.Impulse);
         }
         else if(other.tag == "bullet")
         {

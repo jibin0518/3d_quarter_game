@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,16 +23,20 @@ public class GameManager : MonoBehaviour
     public int enemycntC;
     public int enemycntD;
 
+    public bool gamesta;
+
     public GameObject noticeshop;
 
     public Transform[] enemyZones;
     public GameObject[] enemies;
     public List<int> enemylist;
+    public Shop shopmanger;
 
     public GameObject startzone;
     public GameObject menupanel;
     public GameObject gamepanel;
     public GameObject overpanel;
+    public GameObject escpanel;
     public Text maxscoreTxT;
     public Text scoreTxT;
     public Text stageTxT;
@@ -50,7 +55,6 @@ public class GameManager : MonoBehaviour
     public RectTransform bossHealthBar;
     public Text curscoreText;
     public Text bestText;
-    public GameObject armnoticeTxt;
     public Text plusText;
     public string[] cointext;
 
@@ -75,14 +79,6 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
     }
 
-    public void noticearm()
-    {
-        armnoticeTxt.SetActive(true);
-    }
-    public void noticebarover() {
-        armnoticeTxt.SetActive(false);
-    }
-
     public void GameOver()
     {
         gamepanel.SetActive(false);
@@ -104,6 +100,7 @@ public class GameManager : MonoBehaviour
 
     public void StageStart()
     {
+        gamesta = true;
         startzone.SetActive(false);
         foreach (Transform zone in enemyZones)
         {
@@ -111,11 +108,11 @@ public class GameManager : MonoBehaviour
         }
         isbattle = true;
         StartCoroutine(inbattle());
-        
     }
 
     void StageEnd()
     {
+        gamesta = false;
         player.transform.position = Vector3.up * 0.2f;
 
         startzone.SetActive(true);
@@ -124,7 +121,7 @@ public class GameManager : MonoBehaviour
             zone.gameObject.SetActive(false);
         }
         player.coin += 150;
-        //notice();
+        StartCoroutine(notice());
         noticeshop.SetActive(true);
         isbattle = false;
         stage++;
@@ -187,18 +184,26 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (isbattle)
-        {
-            playTime += Time.deltaTime;
-        }
+        if (isbattle) playTime += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Escape)) Exit();
     }
 
-    /*IEnumerator notice()
+    void Exit()
+    {
+        if (shopmanger.Itemshop == true || shopmanger.Weaponshop == true)
+        {
+            shopmanger.itemExit();
+            shopmanger.weaponExit();
+        }
+        if(shopmanger.Itemshop==false && shopmanger.Weaponshop==false) escpanel.SetActive(true);
+    }
+
+    IEnumerator notice()
     {
         plusText.text = cointext[0];
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2.5f);
         plusText.text = cointext[1];
-    }*/
+    }
 
     void LateUpdate()
     {

@@ -1,24 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class Item : MonoBehaviour
 {
     public enum Type {am,co,gre, hea,wea };
+    public GameObject player;
     public Type type;
     public int val;
 
     Rigidbody rigid;
     SphereCollider sphereCollider;
+    NavMeshAgent nav;
+
+    void Start()
+    {
+        player = GameObject.Find("Player");
+    }
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
         sphereCollider = GetComponent<SphereCollider>();
+        nav = GetComponent<NavMeshAgent>();
     }
     void Update()
     {
         transform.Rotate(Vector3.up * 50 * Time.deltaTime);
+        if(type == Type.co)
+        {
+            targeting();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -28,5 +42,10 @@ public class Item : MonoBehaviour
             rigid.isKinematic = true;
             sphereCollider.enabled = false;
         }
+    }
+    void targeting()
+    {
+        
+        nav.SetDestination(player.transform.position);
     }
 }

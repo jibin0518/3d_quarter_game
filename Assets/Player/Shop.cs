@@ -2,27 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
-    bool itemshop;
-    bool weaponshop;
+    bool itemshop=false;
+    bool weaponshop=false;
     public GameObject Itemshop;
     public GameObject Weaponshop;
-    public Player player;
-
-    //public Text talktext;
-    //public int[] itemprice;
-    //public int[] weaponprice;
-    //public string[] talkdata;
-
+    public GameManager manger;
 
     void Update()
     {
         key();
-        shop();
+        shopokey();
     }
 
     void key()
@@ -31,35 +26,54 @@ public class Shop : MonoBehaviour
         weaponshop = Input.GetButtonDown("WeaponShop");
     }
 
-    void shop()
+    void shopokey()
     {
-            if (itemshop)
+            if (itemshop && manger.gamesta!=true)
             {
-                Debug.Log("111");
+                //Debug.Log("111");
                 Itemshop.SetActive(true);
                 Weaponshop.SetActive(false);
                 itemshop = true;
             }
-            if (weaponshop)
+            if (weaponshop && manger.gamesta != true)
             {
-                Debug.Log("222");
+                //Debug.Log("222");
                 Weaponshop.SetActive(true);
                 Itemshop.SetActive(false);
                 weaponshop = true;
             }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Weaponshop.SetActive(false);
+                weaponshop = false;
+                Itemshop.SetActive(false);
+                itemshop = false;
+            }
+    }
+    public void Itemshopopen()
+    {
+        Itemshop.SetActive(true);
+        Weaponshop.SetActive(false);
+        itemshop = true;
+    }
+
+    public void Weaponshopopen()
+    {
+        Weaponshop.SetActive(true);
+        Itemshop.SetActive(false);
+        weaponshop = true;
     }
 
     public void weaponExit()
     {
         Weaponshop.SetActive(false);
         weaponshop = false;
-        //Debug.Log("1!1");
+        Debug.Log(weaponshop);
     }
 
     public void itemExit()
     {
         Itemshop.SetActive(false);
         itemshop = false;
-        //Debug.Log("2!2");
     }
 }
