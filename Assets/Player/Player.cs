@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     public GameObject GreObj;//수류탄 객체
     public GameManager manger;
 
+    public Shop shopmanger;
+
     public GameObject Itemshop;
     public GameObject Weaponshop;
 
@@ -134,6 +136,11 @@ public class Player : MonoBehaviour
             movevec = dgvec;
         }
 
+        if (shopmanger.escboo)
+        {
+            movevec = Vector3.zero;
+        }
+
         spd = (isreload || isswap || fdown) ? 2f : 5f;
         runspd = (rundown || space) ? 0.8f : 0.3f;
 
@@ -153,7 +160,7 @@ public class Player : MonoBehaviour
     {
         transform.LookAt(transform.position + movevec);
 
-        if (fdown && !isdead)
+        if (fdown && !isdead && !shopmanger.escboo)
         {
             Ray ray = followca.ScreenPointToRay(Input.mousePosition);
             RaycastHit rayhit;
@@ -185,7 +192,7 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        if(gdown && !isreload && !isswap && !isdead)
+        if(gdown && !isreload && !isswap && !isdead && !shopmanger.escboo)
         {
             Ray ray = followca.ScreenPointToRay(Input.mousePosition);
             RaycastHit rayhit;
@@ -208,7 +215,7 @@ public class Player : MonoBehaviour
     //슬라이드
     void dodge()
     {
-        if (space && movevec != Vector3.zero && !isjp && !isdg && !isswap && !isdead /*&& !cooltm*/)
+        if (space && movevec != Vector3.zero && !isjp && !isdg && !isswap && !isdead && !shopmanger.escboo /*&& !cooltm*/)
         {
             dgvec = movevec;
             slide = 2;
@@ -243,7 +250,7 @@ public class Player : MonoBehaviour
         if (sdown1) weaponidex = 0;
         if (sdown2) weaponidex = 1;
         if (sdown3) weaponidex = 2;
-        if (sdown1 || sdown2 || sdown3 && !isdg)
+        if (sdown1 || sdown2 || sdown3 && !isdg && !shopmanger.escboo)
         {
             if (nowweapon != null)
             {
@@ -279,7 +286,7 @@ public class Player : MonoBehaviour
     //아이템 먹기
     void inter()
     {
-        if (idown && nearob != null && !isdg && !isdead)
+        if (idown && nearob != null && !isdg && !isdead && !shopmanger.escboo)
         {
             if (nearob.tag == "weapon")
             {
@@ -302,7 +309,7 @@ public class Player : MonoBehaviour
         fdel += Time.deltaTime;
         isfry = nowweapon.rate < fdel;
 
-        if(fdown && isfry && !isdg && !isswap && !reloadely && !isdead)
+        if(fdown && isfry && !isdg && !isswap && !reloadely && !isdead && !shopmanger.escboo)
         {
             nowweapon.use();
             anim.SetTrigger(nowweapon.type == Weapon.Type.mel ? "doswing" : "doshot");
@@ -325,7 +332,7 @@ public class Player : MonoBehaviour
     //장전입력 
     void reload()
     {
-        if(nowweapon != null && nowweapon.type == Weapon.Type.ran && ammo > 0 && !isdg && rdown && !isswap && isfry && nowweapon.curammo != nowweapon.maxammo && !reloadely && !isdead)
+        if(nowweapon != null && nowweapon.type == Weapon.Type.ran && ammo > 0 && !isdg && rdown && !isswap && isfry && nowweapon.curammo != nowweapon.maxammo && !reloadely && !isdead && shopmanger.escboo)
         {
             if (isreload == false)
             {

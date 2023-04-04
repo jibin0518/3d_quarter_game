@@ -10,9 +10,11 @@ public class Shop : MonoBehaviour
 {
     bool itemshop=false;
     bool weaponshop=false;
+    public bool escboo=false;
     public GameObject Itemshop;
     public GameObject Weaponshop;
     public GameManager manger;
+    public GameObject Escpanel;
 
     void Update()
     {
@@ -24,20 +26,23 @@ public class Shop : MonoBehaviour
     {
         itemshop = Input.GetButtonDown("ItemShop");
         weaponshop = Input.GetButtonDown("WeaponShop");
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (escboo) Contigame();
+            else if (!itemshop && !weaponshop) Escpoanelscen();
+        }
     }
 
     void shopokey()
     {
-            if (itemshop && manger.gamesta!=true)
+            if (itemshop && manger.gamesta!=true && !escboo)
             {
-                //Debug.Log("111");
                 Itemshop.SetActive(true);
                 Weaponshop.SetActive(false);
                 itemshop = true;
             }
-            if (weaponshop && manger.gamesta != true)
+            if (weaponshop && manger.gamesta != true && !escboo)
             {
-                //Debug.Log("222");
                 Weaponshop.SetActive(true);
                 Itemshop.SetActive(false);
                 weaponshop = true;
@@ -75,5 +80,21 @@ public class Shop : MonoBehaviour
     {
         Itemshop.SetActive(false);
         itemshop = false;
+    }
+
+    public void Escpoanelscen()
+    {
+        Escpanel.SetActive(true);
+        escboo = true;
+    }
+    public void Contigame()
+    {
+        Escpanel.SetActive(false);
+        escboo = false;
+    }
+    public void Exitgame()
+    {
+        Escpanel.SetActive(false);
+        manger.GameOver();
     }
 }

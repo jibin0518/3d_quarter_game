@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Transactions;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -19,6 +20,7 @@ public class Enemy : MonoBehaviour
     public BoxCollider melarea;//공격범위
     public GameObject bullet;
     public GameObject[] coins;
+    public Shop shopmanger;
 
     public bool ischase;
     public bool isattack;
@@ -34,6 +36,7 @@ public class Enemy : MonoBehaviour
 
     void Awake()
     {
+        shopmanger=GetComponent<Shop>();
         rigid = GetComponent<Rigidbody>();
         BoxCollider = GetComponent<BoxCollider>();
         meshs = GetComponentsInChildren<MeshRenderer>();
@@ -141,7 +144,6 @@ public class Enemy : MonoBehaviour
         isattack = false;
         anim.SetBool("isAttack", false);
     }
-
     void FixedUpdate()
     {
         targeting();

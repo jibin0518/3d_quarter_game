@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -773,9 +773,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed63b2223fca78d4da8745e7a46f2ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  escboo: 0
   Itemshop: {fileID: 1699091036}
   Weaponshop: {fileID: 1304692743}
   manger: {fileID: 1994475597}
+  Escpanel: {fileID: 0}
 --- !u!1001 &162066738
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5957,7 +5959,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 196393443}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1527018138}
+        m_TargetAssemblyTypeName: Shop, Assembly-CSharp
+        m_MethodName: Exitgame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &196393443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27521,53 +27535,6 @@ Transform:
   m_Father: {fileID: 734721985}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &691012038
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 691012040}
-  - component: {fileID: 691012039}
-  m_Layer: 0
-  m_Name: Shop_panel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &691012039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 691012038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed63b2223fca78d4da8745e7a46f2ec1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Itemshop: {fileID: 1699091036}
-  Weaponshop: {fileID: 1304692743}
-  manger: {fileID: 1994475597}
---- !u!4 &691012040
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 691012038}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 418.12506, y: 262.44574, z: 0.27692413}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &694210836 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7209417620919649187, guid: 10653eccf6b69fd47938a227b4bf3863, type: 3}
@@ -28145,7 +28112,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 691012039}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: Weaponshopopen
         m_Mode: 1
@@ -39430,6 +39397,7 @@ MonoBehaviour:
   followca: {fileID: 963194227}
   GreObj: {fileID: 496338285563818860, guid: f56db2ffa46135442a6bc20b64dd6288, type: 3}
   manger: {fileID: 1994475597}
+  shopmanger: {fileID: 1527018138}
   Itemshop: {fileID: 1699091036}
   Weaponshop: {fileID: 1304692743}
   ammo: 60
@@ -39628,9 +39596,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed63b2223fca78d4da8745e7a46f2ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  escboo: 0
   Itemshop: {fileID: 1699091036}
   Weaponshop: {fileID: 1304692743}
   manger: {fileID: 1994475597}
+  Escpanel: {fileID: 0}
 --- !u!1 &1109220917
 GameObject:
   m_ObjectHideFlags: 0
@@ -47154,7 +47124,7 @@ GameObject:
   - component: {fileID: 1474690006}
   - component: {fileID: 1474690007}
   m_Layer: 0
-  m_Name: ShopMnager
+  m_Name: ShopOpenMnager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47732,6 +47702,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1051127608}
   orbitsp: 30
+--- !u!1 &1527018137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1527018139}
+  - component: {fileID: 1527018138}
+  m_Layer: 0
+  m_Name: Some_Panel_Manger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1527018138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527018137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed63b2223fca78d4da8745e7a46f2ec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  escboo: 0
+  Itemshop: {fileID: 1699091036}
+  Weaponshop: {fileID: 1304692743}
+  manger: {fileID: 1994475597}
+  Escpanel: {fileID: 1315881735}
+--- !u!4 &1527018139
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527018137}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.945209, y: -2.2057958, z: 3.01869}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1532643240
 GameObject:
   m_ObjectHideFlags: 0
@@ -49068,7 +49087,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1733067375}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1527018138}
+        m_TargetAssemblyTypeName: Shop, Assembly-CSharp
+        m_MethodName: Contigame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1733067375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49443,7 +49474,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 691012039}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: Itemshopopen
         m_Mode: 1
@@ -55847,12 +55878,11 @@ MonoBehaviour:
   - {fileID: 8072884169193317215, guid: 70428787542a5724a8d8059606e982d2, type: 3}
   - {fileID: 3335144882627429272, guid: 44b6a988221d2424cbda588ce07e4d89, type: 3}
   enemylist: 
-  shopmanger: {fileID: 691012039}
+  shopmanger: {fileID: 1527018138}
   startzone: {fileID: 355278540}
   menupanel: {fileID: 2061569362}
   gamepanel: {fileID: 1751489129}
   overpanel: {fileID: 349371495}
-  escpanel: {fileID: 1315881735}
   maxscoreTxT: {fileID: 1440216651}
   scoreTxT: {fileID: 1277863315}
   stageTxT: {fileID: 1642313291}

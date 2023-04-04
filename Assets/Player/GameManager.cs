@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     public GameObject menupanel;
     public GameObject gamepanel;
     public GameObject overpanel;
-    public GameObject escpanel;
+    
     public Text maxscoreTxT;
     public Text scoreTxT;
     public Text stageTxT;
@@ -100,14 +100,17 @@ public class GameManager : MonoBehaviour
 
     public void StageStart()
     {
-        gamesta = true;
-        startzone.SetActive(false);
-        foreach (Transform zone in enemyZones)
+        if (!shopmanger.escboo)
         {
-            zone.gameObject.SetActive(true);
+            gamesta = true;
+            startzone.SetActive(false);
+            foreach (Transform zone in enemyZones)
+            {
+                zone.gameObject.SetActive(true);
+            }
+            isbattle = true;
+            StartCoroutine(inbattle());
         }
-        isbattle = true;
-        StartCoroutine(inbattle());
     }
 
     void StageEnd()
@@ -195,7 +198,6 @@ public class GameManager : MonoBehaviour
             shopmanger.itemExit();
             shopmanger.weaponExit();
         }
-        if(shopmanger.Itemshop==false && shopmanger.Weaponshop==false) escpanel.SetActive(true);
     }
 
     IEnumerator notice()
