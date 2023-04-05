@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     public BoxCollider melarea;//공격범위
     public GameObject bullet;
     public GameObject[] coins;
-    public Shop shopmanger;
+    public GameObject shopmanger;
 
     public bool ischase;
     public bool isattack;
@@ -36,7 +36,6 @@ public class Enemy : MonoBehaviour
 
     void Awake()
     {
-        shopmanger=GetComponent<Shop>();
         rigid = GetComponent<Rigidbody>();
         BoxCollider = GetComponent<BoxCollider>();
         meshs = GetComponentsInChildren<MeshRenderer>();
@@ -47,6 +46,10 @@ public class Enemy : MonoBehaviour
         {
             Invoke("chasestart", 2);
         }
+    }
+    private void Start()
+    {
+        shopmanger = GameObject.Find("Some_Panel_Manger");
     }
 
     void chasestart()
@@ -74,7 +77,7 @@ public class Enemy : MonoBehaviour
 
     void targeting()
     {
-        if(!isdead && enemytype != Type.D) { 
+        if(!isdead && enemytype != Type.D && !manager.escboo) { 
             float targetRad = 0;
             float targetRange = 0;
 

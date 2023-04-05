@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviour
     public int enemycntC;
     public int enemycntD;
 
+    public bool itemshop = false;
+    public bool weaponshop = false;
+    public bool escboo = false;
+
     public bool gamesta;
 
     public GameObject noticeshop;
@@ -68,6 +72,38 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("MaxScore", 0);
         }
     }
+
+    void Update()
+    {
+        Key();
+        ShopoOpen();
+        if (isbattle) playTime += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Escape)) Exit();
+    }
+
+    void Key()
+    {
+        itemshop = Input.GetButtonDown("ItemShop");
+        weaponshop = Input.GetButtonDown("WeaponShop");
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (escboo) shopmanger.Contigame();
+            else if (!itemshop && !weaponshop) shopmanger.Escpoanelscen();
+        }
+    }
+
+    void ShopoOpen()
+    {
+        if (itemshop && gamesta != true && !escboo)
+        {
+            shopmanger.Itemshopopen();
+        }
+        if (weaponshop && gamesta != true && !escboo)
+        {
+            shopmanger.Weaponshopopen();
+        }
+    }
+
     public void GameStart()
     {
         menuCa.SetActive(false);
@@ -100,7 +136,7 @@ public class GameManager : MonoBehaviour
 
     public void StageStart()
     {
-        if (!shopmanger.escboo)
+        if (!escboo)
         {
             gamesta = true;
             startzone.SetActive(false);
@@ -185,11 +221,6 @@ public class GameManager : MonoBehaviour
         StageEnd();
     }
 
-    void Update()
-    {
-        if (isbattle) playTime += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Escape)) Exit();
-    }
 
     void Exit()
     {
