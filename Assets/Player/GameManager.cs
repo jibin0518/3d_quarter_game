@@ -44,6 +44,10 @@ public class GameManager : MonoBehaviour
     public Text maxscoreTxT;
     public Text scoreTxT;
     public Text stageTxT;
+
+    public Text EscStageTxt;
+    public Text EscScoreTxt;
+
     public Text playTimeTxT;
     public Text playerHealth;
     public Text playerAmmoTxT;
@@ -88,7 +92,12 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (escboo) shopmanger.Contigame();
-            else if (!itemshop && !weaponshop) shopmanger.Escpoanelscen();
+            else if (!itemshop && !weaponshop)
+            {
+                EscScoreTxt.text = scoreTxT.text;
+                EscStageTxt.text = "STAGE" + stage;
+                shopmanger.Escpoanelscen();
+            }
         }
     }
 
@@ -97,10 +106,12 @@ public class GameManager : MonoBehaviour
         if (itemshop && gamesta != true && !escboo)
         {
             shopmanger.Itemshopopen();
+            player.openshop = true;
         }
         if (weaponshop && gamesta != true && !escboo)
         {
             shopmanger.Weaponshopopen();
+            player.openshop = true;
         }
     }
 
@@ -228,6 +239,7 @@ public class GameManager : MonoBehaviour
         {
             shopmanger.itemExit();
             shopmanger.weaponExit();
+            player.openshop = false;
         }
     }
 

@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     public int hasgre;//수류탄
     public int score;
 
+    public RectTransform playerhealthbar;
+
     public int maxammo;//최대총알
     public int maxcoin;//최대돈
     public int maxhealth;//최대체력
@@ -38,9 +40,11 @@ public class Player : MonoBehaviour
     public string[] text;
     public Text noticetext;
 
+    public bool openshop=false;
+
     float haxis;//좌우
     float vaxis;//상하
-
+    
     bool gdown;//수류탄 투척
     bool rundown;//딜리기입력
     bool space;//점프입력
@@ -108,6 +112,11 @@ public class Player : MonoBehaviour
         attack();
         reload();
         grenade();
+    }
+
+    void LateUpdate()
+    {
+        playerhealthbar.localScale = new Vector3((float)health / maxhealth, 1, 1);
     }
 
     //입력
@@ -309,7 +318,7 @@ public class Player : MonoBehaviour
         fdel += Time.deltaTime;
         isfry = nowweapon.rate < fdel;
 
-        if(fdown && isfry && !isdg && !isswap && !reloadely && !isdead && !manger.escboo)
+        if(fdown && isfry && !isdg && !isswap && !reloadely && !isdead && !manger.escboo && !openshop)
         {
             nowweapon.use();
             anim.SetTrigger(nowweapon.type == Weapon.Type.mel ? "doswing" : "doshot");
@@ -325,8 +334,11 @@ public class Player : MonoBehaviour
     IEnumerator noticearm()
     {
         noticetext.text = text[1];
-        yield return new WaitForSeconds(2f);
-        noticetext.text = text[0];
+        yield return null;
+        if (nowweapon.curammo > 0)
+        {
+            noticetext.text = text[0];
+        }
     }
 
     //장전입력 

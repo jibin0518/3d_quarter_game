@@ -8,9 +8,6 @@ using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
-    /*bool itemshop=false;
-    bool weaponshop=false;
-    public bool escboo=false;*/
     public GameObject Itemshop;
     public GameObject Weaponshop;
     public GameManager manger;
