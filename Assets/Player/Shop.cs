@@ -12,11 +12,15 @@ public class Shop : MonoBehaviour
     public GameObject Weaponshop;
     public GameManager manger;
     public GameObject Escpanel;
+    public Text itemtalktext;
+    public Text weatalktext;
+    public string[] talkdata;
     public void Itemshopopen()
     {
         Itemshop.SetActive(true);
         Weaponshop.SetActive(false);
         manger.itemshop = true;
+        StartCoroutine(talk());
     }
 
     public void Weaponshopopen()
@@ -24,6 +28,7 @@ public class Shop : MonoBehaviour
         Weaponshop.SetActive(true);
         Itemshop.SetActive(false);
         manger.weaponshop = true;
+        StartCoroutine(talk());
     }
 
     public void weaponExit()
@@ -55,5 +60,12 @@ public class Shop : MonoBehaviour
         Time.timeScale = 1;
         Escpanel.SetActive(false);
         manger.GameOver();
+    }
+
+    IEnumerator talk()
+    {
+        itemtalktext.text = talkdata[1];
+        weatalktext.text = talkdata[0];
+        yield return null;
     }
 }

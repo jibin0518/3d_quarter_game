@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 693943312500133883}
-  - component: {fileID: 8013902716313526475}
   - component: {fileID: 7771611013677967576}
   m_Layer: 11
   m_Name: Mesh Object
@@ -36,19 +35,6 @@ Transform:
   m_Father: {fileID: 4792741973003755940}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!65 &8013902716313526475
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 210175395031700801}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 4, z: 5}
-  m_Center: {x: 0, y: 0, z: 2}
 --- !u!95 &7771611013677967576
 Animator:
   serializedVersion: 4
@@ -734,6 +720,7 @@ GameObject:
   - component: {fileID: 134511839155989753}
   - component: {fileID: 8362772198784952036}
   - component: {fileID: 2894614417409949793}
+  - component: {fileID: 1676543857600145043}
   m_Layer: 11
   m_Name: Enemy C
   m_TagString: enemy
@@ -797,6 +784,7 @@ MonoBehaviour:
   - {fileID: 1193534365263240607, guid: 00c7c7f2d8b6ed24f92aba89c24ca392, type: 3}
   - {fileID: 1404491026221764045, guid: b841b9a8491eed34297ad09d2ccf0f18, type: 3}
   - {fileID: 5765354612886526941, guid: 7977ec4724d91f94ba2a06c4d5539f15, type: 3}
+  shopmanger: {fileID: 0}
   ischase: 0
   isattack: 0
   isdead: 0
@@ -827,3 +815,16 @@ NavMeshAgent:
   m_BaseOffset: -0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!65 &1676543857600145043
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8072884169193317215}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 6, z: 4}
+  m_Center: {x: 0, y: 3, z: 0}

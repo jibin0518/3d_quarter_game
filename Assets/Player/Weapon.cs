@@ -48,7 +48,7 @@ public class Weapon : MonoBehaviour
     {
         GameObject instantbullet = Instantiate(bullet, bulletpos.position, bulletpos.rotation);
         Rigidbody bulletrigid = instantbullet.GetComponent<Rigidbody>();
-        bulletrigid.velocity = bulletpos.forward * 50;
+        bulletrigid.velocity = bulletpos.forward * 30;
 
         yield return null;
 

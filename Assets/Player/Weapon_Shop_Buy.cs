@@ -26,8 +26,7 @@ public class Weapon_Shop_Buy : MonoBehaviour
         }
         if (price > player.coin)
         {
-            StopCoroutine(talk());
-            StartCoroutine(talk());
+            StartCoroutine(nopricetalk());
             return;
         }
         else if (!weaponpay && index == 0)
@@ -40,9 +39,13 @@ public class Weapon_Shop_Buy : MonoBehaviour
 
     IEnumerator talk()
     {
-        talktext.text = talkdata[0];
-        yield return new WaitForSeconds(2f);
         talktext.text = talkdata[1];
+        yield return null;
+    }
+    IEnumerator nopricetalk()
+    {
+        talktext.text = talkdata[0];
+        yield return null;
     }
     IEnumerator buyinfo()
     {
