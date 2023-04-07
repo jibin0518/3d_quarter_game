@@ -8,72 +8,52 @@ using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
-    bool itemshop=false;
-    bool weaponshop=false;
     public GameObject Itemshop;
     public GameObject Weaponshop;
     public GameManager manger;
-
-    void Update()
-    {
-        key();
-        shopokey();
-    }
-
-    void key()
-    {
-        itemshop = Input.GetButtonDown("ItemShop");
-        weaponshop = Input.GetButtonDown("WeaponShop");
-    }
-
-    void shopokey()
-    {
-            if (itemshop && manger.gamesta!=true)
-            {
-                //Debug.Log("111");
-                Itemshop.SetActive(true);
-                Weaponshop.SetActive(false);
-                itemshop = true;
-            }
-            if (weaponshop && manger.gamesta != true)
-            {
-                //Debug.Log("222");
-                Weaponshop.SetActive(true);
-                Itemshop.SetActive(false);
-                weaponshop = true;
-            }
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Weaponshop.SetActive(false);
-                weaponshop = false;
-                Itemshop.SetActive(false);
-                itemshop = false;
-            }
-    }
+    public GameObject Escpanel;
     public void Itemshopopen()
     {
         Itemshop.SetActive(true);
         Weaponshop.SetActive(false);
-        itemshop = true;
+        manger.itemshop = true;
     }
 
     public void Weaponshopopen()
     {
         Weaponshop.SetActive(true);
         Itemshop.SetActive(false);
-        weaponshop = true;
+        manger.weaponshop = true;
     }
 
     public void weaponExit()
     {
         Weaponshop.SetActive(false);
-        weaponshop = false;
-        Debug.Log(weaponshop);
+        manger.weaponshop = false;
     }
 
     public void itemExit()
     {
         Itemshop.SetActive(false);
-        itemshop = false;
+        manger.itemshop = false;
+    }
+
+    public void Escpoanelscen()
+    {
+        Time.timeScale = 0;
+        Escpanel.SetActive(true);
+        manger.escboo = true;
+    }
+    public void Contigame()
+    {
+        Time.timeScale = 1;
+        Escpanel.SetActive(false);
+        manger.escboo = false;
+    }
+    public void Exitgame()
+    {
+        Time.timeScale = 1;
+        Escpanel.SetActive(false);
+        manger.GameOver();
     }
 }

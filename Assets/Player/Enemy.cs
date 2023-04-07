@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Transactions;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -19,6 +20,7 @@ public class Enemy : MonoBehaviour
     public BoxCollider melarea;//공격범위
     public GameObject bullet;
     public GameObject[] coins;
+    public GameObject shopmanger;
 
     public bool ischase;
     public bool isattack;
@@ -44,6 +46,10 @@ public class Enemy : MonoBehaviour
         {
             Invoke("chasestart", 2);
         }
+    }
+    private void Start()
+    {
+        shopmanger = GameObject.Find("Some_Panel_Manger");
     }
 
     void chasestart()
@@ -71,7 +77,7 @@ public class Enemy : MonoBehaviour
 
     void targeting()
     {
-        if(!isdead && enemytype != Type.D) { 
+        if(!isdead && enemytype != Type.D && !manager.escboo) { 
             float targetRad = 0;
             float targetRange = 0;
 
@@ -141,7 +147,6 @@ public class Enemy : MonoBehaviour
         isattack = false;
         anim.SetBool("isAttack", false);
     }
-
     void FixedUpdate()
     {
         targeting();
