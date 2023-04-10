@@ -222,16 +222,16 @@ public class Player : MonoBehaviour
     //슬라이드
     void dodge()
     {
-        if (space && movevec != Vector3.zero && !isjp && !isdg && !isswap && !isdead && !manger.escboo /*&& !cooltm*/)
+        if (space && movevec != Vector3.zero && !isjp && !isdg && !isswap && !isdead && !manger.escboo && !cooltm)
         {
             dgvec = movevec;
             slide = 2;
             anim.SetTrigger("doDodge");
             isdg = true;
-            //cooltm = true; 쿨타임
+            cooltm = true;// 쿨타임
 
             Invoke("Dodgeout", 0.4f);
-            //Invoke("Cooltime", 3); 쿨타임
+            Invoke("Cooltime", 0.5f);// 쿨타임
         }
     }
 
@@ -243,12 +243,10 @@ public class Player : MonoBehaviour
     }
 
     //슬라이드 쿨타임
-    /*
     void Cooltime()
     {
         cooltm = false;
     }
-    */
 
     //무기 아이템 바꾸기
     void swap()
@@ -333,7 +331,7 @@ public class Player : MonoBehaviour
     {
         noticetext.text = text[1];
         yield return null;
-        if (nowweapon.curammo > 0)
+        if (nowweapon.curammo > 0 || nowweapon.type == Weapon.Type.mel)
         {
             noticetext.text = text[0];
         }

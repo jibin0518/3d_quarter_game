@@ -187,4 +187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a687d25bf794e4d90ad2f4851ad9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 7
+  damage: 18
+  ismel: 0
+  isrock: 0

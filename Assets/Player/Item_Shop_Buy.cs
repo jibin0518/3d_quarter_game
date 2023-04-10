@@ -19,8 +19,7 @@ public class Item_Shop_Buy : MonoBehaviour
         int price = itemprice[index];
         if (price > player.coin)
         {
-            StopCoroutine(talk());
-            StartCoroutine(talk());
+            StartCoroutine(nopricetalk());
             return;
         }
         if(player.health!=player.maxhealth && index == 0)
@@ -33,6 +32,7 @@ public class Item_Shop_Buy : MonoBehaviour
                 player.health -= gap;
                 StartCoroutine(maxhealth());
             }
+            StartCoroutine(talk());
         }
         if (player.ammo!=player.maxammo && index == 1)
         {
@@ -44,6 +44,7 @@ public class Item_Shop_Buy : MonoBehaviour
                 player.ammo -= gap;
                 StartCoroutine(maxammo());
             }
+            StartCoroutine(talk());
         }
         if(player.hasgre != player.maxhasgre && index==2)
         {
@@ -56,31 +57,32 @@ public class Item_Shop_Buy : MonoBehaviour
                 player.hasgre -= gap;
                 StartCoroutine(maxhasgre());
             }
+            StartCoroutine(talk());
         }
     }
-
     IEnumerator talk()
     {
-        talktext.text = talkdata[0];
-        yield return new WaitForSeconds(2f);
         talktext.text = talkdata[1];
+        yield return null;
+    }
+    IEnumerator nopricetalk()
+    {
+        talktext.text = talkdata[0];
+        yield return null;
     }
     IEnumerator maxhealth()
     {
         talktext.text = talkdata[2];
-        yield return new WaitForSeconds(2f);
-        talktext.text = talkdata[1];
+        yield return null;
     }
     IEnumerator maxammo()
     {
         talktext.text = talkdata[3];
-        yield return new WaitForSeconds(2f);
-        talktext.text = talkdata[1];
+        yield return null;
     }
     IEnumerator maxhasgre()
     {
         talktext.text = talkdata[4];
-        yield return new WaitForSeconds(2f);
-        talktext.text = talkdata[1];
+        yield return null;
     }
 }
