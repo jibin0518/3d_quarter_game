@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
 using UnityEngine.UI;
