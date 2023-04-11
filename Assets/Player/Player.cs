@@ -222,7 +222,7 @@ public class Player : MonoBehaviour
     //슬라이드
     void dodge()
     {
-        if (space && movevec != Vector3.zero && !isjp && !isdg && !isswap && !isdead && !manger.escboo && !cooltm)
+        if (space && movevec != Vector3.zero && !isjp && !isdg && !isswap && !isdead && !manger.escboo && !cooltm && !reloadely)
         {
             dgvec = movevec;
             slide = 2;

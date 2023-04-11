@@ -149,6 +149,7 @@ public class GameManager : MonoBehaviour
     {
         if (!escboo)
         {
+           player.openshop = false;
             gamesta = true;
             startzone.SetActive(false);
             foreach (Transform zone in enemyZones)
