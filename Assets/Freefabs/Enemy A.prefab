@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1067781785143251578}
   - component: {fileID: 1067781785143251583}
   - component: {fileID: 1067781785143251576}
+  - component: {fileID: -651541386323928037}
   m_Layer: 11
   m_Name: Enemy A
   m_TagString: enemy
@@ -97,6 +98,7 @@ MonoBehaviour:
   - {fileID: 1193534365263240607, guid: 00c7c7f2d8b6ed24f92aba89c24ca392, type: 3}
   - {fileID: 1404491026221764045, guid: b841b9a8491eed34297ad09d2ccf0f18, type: 3}
   - {fileID: 5765354612886526941, guid: 7977ec4724d91f94ba2a06c4d5539f15, type: 3}
+  shopmanger: {fileID: 0}
   ischase: 0
   isattack: 0
   isdead: 0
@@ -105,6 +107,25 @@ MonoBehaviour:
   meshs: []
   nav: {fileID: 0}
   anim: {fileID: 0}
+--- !u!114 &-651541386323928037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747381297597364805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf9db670c1df4bb2843b82560ce5409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 5b47ca1209db34047b14f65d2db913e4, type: 3}
+  size: {x: 20, y: 20}
+  rotateWithObject: 0
+  upAxis: {x: 0, y: 1, z: 0}
+  initialIconRotation: 0
+  clampIconInBorder: 1
+  clampDistance: 100
 --- !u!1 &1067324920249317993
 GameObject:
   m_ObjectHideFlags: 0

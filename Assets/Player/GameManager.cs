@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using UnityEngine.Rendering;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
     public GameObject menupanel;
     public GameObject gamepanel;
     public GameObject overpanel;
+    public GameObject minimap;
     
     public Text maxscoreTxT;
     public Text scoreTxT;
@@ -82,7 +84,11 @@ public class GameManager : MonoBehaviour
         Key();
         ShopoOpen();
         if (isbattle) playTime += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Escape)) Exit();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Exit();
+            ShowMinimap(false);
+        }
     }
 
     void Key()
@@ -97,12 +103,14 @@ public class GameManager : MonoBehaviour
                 EscScoreTxt.text = scoreTxT.text;
                 EscStageTxt.text = "STAGE" + stage;
                 shopmanger.Escpoanelscen();
+                ShowMinimap(false);
             }
         }
     }
 
     void ShopoOpen()
     {
+        ShowMinimap(false);
         if (itemshop && gamesta != true && !escboo)
         {
             shopmanger.Itemshopopen();
@@ -122,6 +130,7 @@ public class GameManager : MonoBehaviour
 
         menupanel.SetActive(false);
         gamepanel.SetActive(true);
+        ShowMinimap(false);
 
         player.gameObject.SetActive(true);
     }
@@ -130,6 +139,7 @@ public class GameManager : MonoBehaviour
     {
         gamepanel.SetActive(false);
         overpanel.SetActive(true);
+        ShowMinimap(false);
         curscoreText.text = scoreTxT.text;
 
         int maxscore = PlayerPrefs.GetInt("MAXscore");
@@ -149,7 +159,8 @@ public class GameManager : MonoBehaviour
     {
         if (!escboo)
         {
-           player.openshop = false;
+            ShowMinimap(true);
+            player.openshop = false;
             gamesta = true;
             startzone.SetActive(false);
             foreach (Transform zone in enemyZones)
@@ -163,6 +174,7 @@ public class GameManager : MonoBehaviour
 
     void StageEnd()
     {
+        ShowMinimap(false);
         gamesta = false;
         player.transform.position = Vector3.up * 0.2f;
 
@@ -180,6 +192,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator inbattle()
     {
+        ShowMinimap(true);
         noticeshop.SetActive(false);
         if (stage % 10 == 0)
         {
@@ -240,6 +253,7 @@ public class GameManager : MonoBehaviour
         {
             shopmanger.itemExit();
             shopmanger.weaponExit();
+            ShowMinimap(true);
             player.openshop = false;
         }
     }
@@ -293,6 +307,18 @@ public class GameManager : MonoBehaviour
         else
         {
             bossHealthGr.anchoredPosition = Vector3.up * 200;
+        }
+    }
+
+    void ShowMinimap(bool value)
+    {
+        if (value)
+        {
+            minimap.transform.localPosition = new Vector3(-368, 88, 0);
+        }
+        else if(!value)
+        {
+            //minimap.transform.localPosition = new Vector3(-1000, 0, 0);
         }
     }
 }

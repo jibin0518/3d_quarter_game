@@ -721,6 +721,7 @@ GameObject:
   - component: {fileID: 8362772198784952036}
   - component: {fileID: 2894614417409949793}
   - component: {fileID: 1676543857600145043}
+  - component: {fileID: 3127910813178513649}
   m_Layer: 11
   m_Name: Enemy C
   m_TagString: enemy
@@ -828,3 +829,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 6, z: 4}
   m_Center: {x: 0, y: 3, z: 0}
+--- !u!114 &3127910813178513649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8072884169193317215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf9db670c1df4bb2843b82560ce5409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 5b47ca1209db34047b14f65d2db913e4, type: 3}
+  size: {x: 20, y: 20}
+  rotateWithObject: 0
+  upAxis: {x: 0, y: 1, z: 0}
+  initialIconRotation: 0
+  clampIconInBorder: 1
+  clampDistance: 100
