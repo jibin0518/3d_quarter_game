@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Threading.Tasks;
-using UnityEngine.Rendering;
-using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GameStat
+    {
+        Start,
+        Ready,
+        Battle,
+        GameOver
+    }
+    public GameStat stat = GameStat.Start;
+
     public GameObject menuCa;
     public GameObject gameCa;
     public Player player;
@@ -42,7 +45,7 @@ public class GameManager : MonoBehaviour
     public GameObject gamepanel;
     public GameObject overpanel;
     public GameObject minimap;
-    
+
     public Text maxscoreTxT;
     public Text scoreTxT;
     public Text stageTxT;
@@ -77,40 +80,89 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("MaxScore", 0);
         }
+
+        ShowMinimap(false);
     }
 
     void Update()
     {
-        Key();
-        ShopoOpen();
+        CheckEscKey();
+        ShopOpen();
         if (isbattle) playTime += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Exit();
-            ShowMinimap(false);
-        }
     }
 
-    void Key()
+    void CheckEscKey()
     {
-        itemshop = Input.GetButtonDown("ItemShop");
-        weaponshop = Input.GetButtonDown("WeaponShop");
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (escboo) shopmanger.Contigame();
-            else if (!itemshop && !weaponshop)
+            if (stat == GameStat.Start)
             {
-                EscScoreTxt.text = scoreTxT.text;
-                EscStageTxt.text = "STAGE" + stage;
-                shopmanger.Escpoanelscen();
+                menuCa.SetActive(false);
+                gameCa.SetActive(true);
+
+                menupanel.SetActive(false);
+                gamepanel.SetActive(true);
                 ShowMinimap(false);
+
+                player.gameObject.SetActive(true);
+            }
+            else if (stat == GameStat.Ready)
+            {
+                if (!itemshop && !weaponshop)
+                {
+                    if (escboo)
+                    {
+                        shopmanger.Contigame();
+                    }
+                    else
+                    {
+                        EscScoreTxt.text = scoreTxT.text;
+                        EscStageTxt.text = "STAGE" + stage;
+                        shopmanger.Escpoanelscen();
+                        ShowMinimap(false);
+                    }
+                }
+                else
+                {
+                    ShopClose();
+                }
+            }
+            else if (stat == GameStat.Battle)
+            {
+                if (escboo)
+                {
+                    shopmanger.Contigame();
+                    ShowMinimap(true);
+                }
+                else
+                {
+                    EscScoreTxt.text = scoreTxT.text;
+                    EscStageTxt.text = "STAGE" + stage;
+                    shopmanger.Escpoanelscen();
+                    ShowMinimap(false);
+                }
+            }
+            else if (stat == GameStat.GameOver)
+            {
+                gamepanel.SetActive(false);
+                overpanel.SetActive(true);
+                ShowMinimap(false);
+                curscoreText.text = scoreTxT.text;
+
+                int maxscore = PlayerPrefs.GetInt("MAXscore");
+                if (player.score > maxscore)
+                {
+                    bestText.gameObject.SetActive(true);
+                    PlayerPrefs.SetInt("MAXscore", player.score);
+                }
             }
         }
     }
 
-    void ShopoOpen()
+    void ShopOpen()
     {
-        ShowMinimap(false);
+        if (Input.GetButtonDown("ItemShop")) itemshop = true;
+        if (Input.GetButtonDown("WeaponShop")) weaponshop = true;
         if (itemshop && gamesta != true && !escboo)
         {
             shopmanger.Itemshopopen();
@@ -123,6 +175,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void ShopClose()
+    {
+        shopmanger.itemExit();
+        shopmanger.weaponExit();
+        player.openshop = false;
+    }
+
     public void GameStart()
     {
         menuCa.SetActive(false);
@@ -130,23 +189,25 @@ public class GameManager : MonoBehaviour
 
         menupanel.SetActive(false);
         gamepanel.SetActive(true);
-        ShowMinimap(false);
 
         player.gameObject.SetActive(true);
+
+        stat = GameStat.Ready;
     }
 
     public void GameOver()
     {
+        stat = GameStat.GameOver;
         gamepanel.SetActive(false);
         overpanel.SetActive(true);
         ShowMinimap(false);
         curscoreText.text = scoreTxT.text;
 
         int maxscore = PlayerPrefs.GetInt("MAXscore");
-        if(player.score > maxscore)
+        if (player.score > maxscore)
         {
             bestText.gameObject.SetActive(true);
-            PlayerPrefs.SetInt("MAXscore" , player.score);
+            PlayerPrefs.SetInt("MAXscore", player.score);
         }
     }
 
@@ -163,12 +224,14 @@ public class GameManager : MonoBehaviour
             player.openshop = false;
             gamesta = true;
             startzone.SetActive(false);
+            ShopClose();
             foreach (Transform zone in enemyZones)
             {
                 zone.gameObject.SetActive(true);
             }
             isbattle = true;
             StartCoroutine(inbattle());
+            stat = GameStat.Battle;
         }
     }
 
@@ -188,6 +251,7 @@ public class GameManager : MonoBehaviour
         noticeshop.SetActive(true);
         isbattle = false;
         stage++;
+        stat = GameStat.Ready;
     }
 
     IEnumerator inbattle()
@@ -246,18 +310,6 @@ public class GameManager : MonoBehaviour
         StageEnd();
     }
 
-
-    void Exit()
-    {
-        if (shopmanger.Itemshop == true || shopmanger.Weaponshop == true)
-        {
-            shopmanger.itemExit();
-            shopmanger.weaponExit();
-            ShowMinimap(true);
-            player.openshop = false;
-        }
-    }
-
     IEnumerator notice()
     {
         plusText.text = cointext[0];
@@ -312,13 +364,7 @@ public class GameManager : MonoBehaviour
 
     void ShowMinimap(bool value)
     {
-        if (value)
-        {
-            minimap.transform.localPosition = new Vector3(-368, 88, 0);
-        }
-        else if(!value)
-        {
-            //minimap.transform.localPosition = new Vector3(-1000, 0, 0);
-        }
+        if (value) minimap.SetActive(true);
+        else minimap.SetActive(false);
     }
 }
