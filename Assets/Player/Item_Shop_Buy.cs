@@ -19,7 +19,7 @@ public class Item_Shop_Buy : MonoBehaviour
         int price = itemprice[index];
         if (price > player.coin)
         {
-            StartCoroutine(nopricetalk());
+            StartCoroutine(Nopricetalk());
             return;
         }
         if(player.health!=player.maxhealth && index == 0)
@@ -30,9 +30,9 @@ public class Item_Shop_Buy : MonoBehaviour
             {
                 gap = player.health - player.maxhasgre;
                 player.health -= gap;
-                StartCoroutine(maxhealth());
+                StartCoroutine(Maxhealth());
             }
-            StartCoroutine(talk());
+            StartCoroutine(Talk());
         }
         if (player.ammo!=player.maxammo && index == 1)
         {
@@ -42,9 +42,9 @@ public class Item_Shop_Buy : MonoBehaviour
             {
                 gap = player.ammo - player.maxammo;
                 player.ammo -= gap;
-                StartCoroutine(maxammo());
+                StartCoroutine(Maxammo());
             }
-            StartCoroutine(talk());
+            StartCoroutine(Talk());
         }
         if(player.hasgre != player.maxhasgre && index==2)
         {
@@ -55,32 +55,32 @@ public class Item_Shop_Buy : MonoBehaviour
             {
                 gap = player.hasgre - player.maxhasgre;
                 player.hasgre -= gap;
-                StartCoroutine(maxhasgre());
+                StartCoroutine(Maxhasgre());
             }
-            StartCoroutine(talk());
+            StartCoroutine(Talk());
         }
     }
-    IEnumerator talk()
+    IEnumerator Talk()
     {
         talktext.text = talkdata[1];
         yield return null;
     }
-    IEnumerator nopricetalk()
+    IEnumerator Nopricetalk()
     {
         talktext.text = talkdata[0];
         yield return null;
     }
-    IEnumerator maxhealth()
+    IEnumerator Maxhealth()
     {
         talktext.text = talkdata[2];
         yield return null;
     }
-    IEnumerator maxammo()
+    IEnumerator Maxammo()
     {
         talktext.text = talkdata[3];
         yield return null;
     }
-    IEnumerator maxhasgre()
+    IEnumerator Maxhasgre()
     {
         talktext.text = talkdata[4];
         yield return null;

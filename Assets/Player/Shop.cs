@@ -15,9 +15,8 @@ public class Shop : MonoBehaviour
     public void Itemshopopen()
     {
         Itemshop.SetActive(true);
-        Weaponshop.SetActive(false);
+        Weaponshop.SetActive(true);
         playerhealthbar.SetActive(false);
-        manger.itemshop = true;
         StartCoroutine(talk());
     }
 
@@ -26,7 +25,6 @@ public class Shop : MonoBehaviour
         Weaponshop.SetActive(true);
         Itemshop.SetActive(false);
         playerhealthbar.SetActive(false);
-        manger.weaponshop = true;
         StartCoroutine(talk());
     }
 
@@ -34,14 +32,12 @@ public class Shop : MonoBehaviour
     {
         Weaponshop.SetActive(false);
         playerhealthbar.SetActive(true);
-        manger.weaponshop = false;
     }
 
     public void itemExit()
     {
         Itemshop.SetActive(false);
         playerhealthbar.SetActive(true);
-        manger.itemshop = false;
     }
 
     public void Escpoanelscen()

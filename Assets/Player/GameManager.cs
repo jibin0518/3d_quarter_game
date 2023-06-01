@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,9 +28,9 @@ public class GameManager : MonoBehaviour
     public int enemycntC;
     public int enemycntD;
 
-    public bool itemshop = false;
-    public bool weaponshop = false;
-    public bool escboo = false;
+    public bool itemshop;
+    public bool weaponshop;
+    public bool escboo;
 
     public bool gamesta;
 
@@ -86,102 +87,49 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        CheckEscKey();
         ShopOpen();
         if (isbattle) playTime += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Escape)) EscControl();
     }
 
-    void CheckEscKey()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (stat == GameStat.Start)
-            {
-                menuCa.SetActive(false);
-                gameCa.SetActive(true);
-
-                menupanel.SetActive(false);
-                gamepanel.SetActive(true);
-                ShowMinimap(false);
-
-                player.gameObject.SetActive(true);
-            }
-            else if (stat == GameStat.Ready)
-            {
-                if (!itemshop && !weaponshop)
-                {
-                    if (escboo)
-                    {
-                        shopmanger.Contigame();
-                    }
-                    else
-                    {
-                        EscScoreTxt.text = scoreTxT.text;
-                        EscStageTxt.text = "STAGE" + stage;
-                        shopmanger.Escpoanelscen();
-                        ShowMinimap(false);
-                    }
-                }
-                else
-                {
-                    ShopClose();
-                }
-            }
-            else if (stat == GameStat.Battle)
-            {
-                if (escboo)
-                {
-                    shopmanger.Contigame();
-                    ShowMinimap(true);
-                }
-                else
-                {
-                    EscScoreTxt.text = scoreTxT.text;
-                    EscStageTxt.text = "STAGE" + stage;
-                    shopmanger.Escpoanelscen();
-                    ShowMinimap(false);
-                }
-            }
-            else if (stat == GameStat.GameOver)
-            {
-                gamepanel.SetActive(false);
-                overpanel.SetActive(true);
-                ShowMinimap(false);
-                curscoreText.text = scoreTxT.text;
-
-                int maxscore = PlayerPrefs.GetInt("MAXscore");
-                if (player.score > maxscore)
-                {
-                    bestText.gameObject.SetActive(true);
-                    PlayerPrefs.SetInt("MAXscore", player.score);
-                }
-            }
-        }
-    }
-
+    //상점 열기
     void ShopOpen()
     {
         if (Input.GetButtonDown("ItemShop")) itemshop = true;
         if (Input.GetButtonDown("WeaponShop")) weaponshop = true;
-        if (itemshop && gamesta != true && !escboo)
+
+        if (itemshop && !gamesta)
         {
             shopmanger.Itemshopopen();
+            shopmanger.weaponExit();
             player.openshop = true;
         }
-        if (weaponshop && gamesta != true && !escboo)
+
+        if (weaponshop && !gamesta)
         {
             shopmanger.Weaponshopopen();
+            shopmanger.itemExit();
             player.openshop = true;
         }
     }
 
+    void EscControl()
+    {
+        shopmanger.Escpoanelscen();
+        ShopClose();
+    }
+
+    //상점 닫기
     void ShopClose()
     {
         shopmanger.itemExit();
         shopmanger.weaponExit();
+        itemshop = false;
+        weaponshop = false;
         player.openshop = false;
     }
 
+    //게임 시작
     public void GameStart()
     {
         menuCa.SetActive(false);
@@ -195,6 +143,7 @@ public class GameManager : MonoBehaviour
         stat = GameStat.Ready;
     }
 
+    //게임오버
     public void GameOver()
     {
         stat = GameStat.GameOver;
@@ -211,11 +160,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //다시시작
     public void Restart()
     {
         SceneManager.LoadScene(0);
     }
 
+    //스테이지시작
     public void StageStart()
     {
         if (!escboo)
@@ -235,6 +186,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //스테이지 끝남
     void StageEnd()
     {
         ShowMinimap(false);
@@ -254,6 +206,7 @@ public class GameManager : MonoBehaviour
         stat = GameStat.Ready;
     }
 
+    //스테이지시작(몬스터 소환)
     IEnumerator inbattle()
     {
         ShowMinimap(true);
@@ -310,6 +263,7 @@ public class GameManager : MonoBehaviour
         StageEnd();
     }
 
+    //스테이지 클리어 보너스 코인
     IEnumerator notice()
     {
         plusText.text = cointext[0];
@@ -317,6 +271,7 @@ public class GameManager : MonoBehaviour
         plusText.text = cointext[1];
     }
 
+    //다른 메뉴
     void LateUpdate()
     {
         scoreTxT.text = string.Format("{0:n0}", player.score);
@@ -362,6 +317,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //미니맵 끄기
     void ShowMinimap(bool value)
     {
         if (value) minimap.SetActive(true);
