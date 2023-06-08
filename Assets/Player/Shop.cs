@@ -14,16 +14,16 @@ public class Shop : MonoBehaviour
     public string[] talkdata;
     public void Itemshopopen()
     {
+        Weaponshop.SetActive(false);
         Itemshop.SetActive(true);
-        Weaponshop.SetActive(true);
         playerhealthbar.SetActive(false);
         StartCoroutine(talk());
     }
 
     public void Weaponshopopen()
     {
-        Weaponshop.SetActive(true);
         Itemshop.SetActive(false);
+        Weaponshop.SetActive(true);
         playerhealthbar.SetActive(false);
         StartCoroutine(talk());
     }
@@ -32,12 +32,14 @@ public class Shop : MonoBehaviour
     {
         Weaponshop.SetActive(false);
         playerhealthbar.SetActive(true);
+        manger.weaponshop = false;
     }
 
     public void itemExit()
     {
         Itemshop.SetActive(false);
         playerhealthbar.SetActive(true);
+        manger.itemshop = false;
     }
 
     public void Escpoanelscen()
